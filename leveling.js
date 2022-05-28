@@ -68,6 +68,13 @@ let elegirTipo = function(){
             elegirTipo()
             break;
     }
+    jugador.$skills.forEach(
+        function(poder){
+            // console.log(iHabilidades + " " + Object.keys(poder))
+            habilidades += iHabilidades + dHabilidades + Object.keys(poder) + "\n"
+            iHabilidades++
+        }
+    )
 
 }
 
@@ -116,19 +123,40 @@ let batalla = function(){
 }
 
 let iniciaBatalla = function(turno){
-    jugador.$skills.forEach(
-        function(poder){
-            // console.log(iHabilidades + " " + Object.keys(poder))
-            habilidades += iHabilidades + dHabilidades + Object.keys(poder) + "\n"
-            iHabilidades++
-        }
-    )
+    
     if(turno){
-        let ataqueJugador = String(prompt(`Jugador Inicia la batalla\nElige tu Ataque\n ${habilidades}`))
-        // if(ataqueJugador != )
+        turnoJugador()
     } else {
         console.log(`mounstruo inicia la Batalla`)
     }
+}
+
+let turnoJugador = function(){
+    console.log("turnoJugador")
+    let seleccion = menuAtaqueJugador()
+
+        switch (seleccion) {
+            case 1:
+                console.log(`jugador a lanzado ${Object.keys(jugador.$skills[0])}`)
+                break;
+            case 2:
+                console.log(`jugador a lanzado ${Object.keys(jugador.$skills[1])}`)
+                break;
+            case 3:
+                console.log(`jugador a lanzado ${Object.keys(jugador.$skills[2])}`)
+                break;
+            default:
+                break;
+        }
+}
+
+let menuAtaqueJugador = function(){
+    let ataqueJugador = parseInt(prompt(`Jugador Inicia la batalla\nElige tu Ataque\n ${habilidades}`))
+    if(isNaN(ataqueJugador)) {
+        console.log(`Error, por favor elige un numero`)
+        menuAtaqueJugador()
+    }
+    return ataqueJugador
 }
 
 
@@ -139,7 +167,7 @@ let play = function(){
     
     verificarName = String(prompt(`tu nombre es ${jugador.$name}? [y/n]`)).toLowerCase()
     if(verificarName === "n" || verificarName === "no"){
-        jugador.$name = String(prompt("Entonces cual e stu nombre?"))
+        jugador.$name = String(prompt("Entonces cual es tu nombre?"))
 
     }
     
