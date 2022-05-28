@@ -1,32 +1,29 @@
 let _cazadores = "Debil - Mago - Espadachin - Tanque - Asesino"
-let mounstruo = [
-    {tipo: "Gobling", ataqueBasico: 5, ataquePotenciado: 15},
-    {tipo: "Alto orco", ataqueBasico: 20, ataquePotenciado: 35},
-    {tipo: "Mounstruo desconocido", ataqueBasico: 30, ataquePotenciado: 45}
-    ]
-let resultSuerte = [
-    "jugador se encontro con un Mounstro",
-    "jugador no encontro ningun Mounstro",
-    "jugador se encontro con un Mounstro"
-    ]
-let quienInicia
-let segirBuscando
-let suerte
-let suerteCantidad
-let level
-let verificarName
+    let mounstruo = [
+        {tipo: "Gobling", ataqueBasico: 5, ataquePotenciado: 15},
+        {tipo: "Alto orco", ataqueBasico: 20, ataquePotenciado: 35},
+        {tipo: "Mounstruo desconocido", ataqueBasico: 30, ataquePotenciado: 45}
+        ]
+    let resultSuerte = [
+        "jugador se encontro con un Mounstro",
+        "jugador no encontro ningun Mounstro",
+        "jugador se encontro con un Mounstro"
+        ]
+    let quienInicia
+    let segirBuscando
+    let suerte
+    let suerteCantidad
+    let level = 0
+    let verificarName
 
-let $name = "sun jin-woo"
-let $tipo = ""
-let $skills = {}
+    let $name = "sun jin-woo"
+    let $tipo = ""
+    let $skills = {}
 
-let play = function(){
-    verificarName = String(prompt(`tu nombre es ${$name}? [y/n]`)).toLowerCase()
-    if(verificarName === "n" || verificarName === "no"){
-        $name = String(prompt("Entonces cual e stu nombre?"))
-
+    let probarSuerte = function(min, max){
+        return Math.floor( ( Math.random() * (max - min + 1) ) + min )
     }
-    
+
     let elegirTipo = function(){
         $tipo = String(prompt(`Elige tu tipo de cazador...\n${_cazadores}`)).toLowerCase()
         switch($tipo){
@@ -71,48 +68,18 @@ let play = function(){
                 break;
         }
     }
-    elegirTipo()
-    
-    let probarSuerte = function(min, max){
-        return Math.floor( ( Math.random() * (max - min + 1) ) + min )
-    }
 
     let ingresarMasmorra = function(){
         
-
         suerte = probarSuerte(0,2)
         console.log(resultSuerte[suerte])
         
-        let batalla = function(){
-            suerte = probarSuerte(0,3)
-
-            switch (suerte) {
-                case 0:
-                    suerteCantidad = probarSuerte(1,3)
-                    console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte].tipo}`)
-                    break;
-                case 1:
-                    suerteCantidad = probarSuerte(1,2)
-                    console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte].tipo}`)
-                    break;
-                case 2:
-                    suerteCantidad = 1
-                    console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte].tipo}`)
-                    break;
-                default:
-                    break;
-            }
-
-            quienInicia = probarSuerte(0,1)
-
-        }
-
         if(suerte === 0 || suerte === 2){
             console.log("la Batalla comienza")
             batalla()
         } else {
             segirBuscando = prompt("deseas seguir buscando Mounstruos?[y/n]").toLowerCase()
-            if(decicion === "y" || decicion === "si"){
+            if(segirBuscando === "y" || segirBuscando === "si"){
                 console.log(level)
                 level++
                 console.log(level)
@@ -121,6 +88,40 @@ let play = function(){
         }
         console.log(level)
     }
+
+    let batalla = function(){
+        suerte = probarSuerte(0,3)
+        switch (suerte) {
+            case 0:
+                suerteCantidad = probarSuerte(1,3)
+                console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte].tipo}`)
+                break;
+            case 1:
+                suerteCantidad = probarSuerte(1,2)
+                console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte].tipo}`)
+                break;
+            case 2:
+                suerteCantidad = 1
+                console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte].tipo}`)
+                break;
+            default:
+                break;
+        }
+
+        quienInicia = probarSuerte(0,1)
+
+    }
+
+let play = function(){
+    
+    verificarName = String(prompt(`tu nombre es ${$name}? [y/n]`)).toLowerCase()
+    if(verificarName === "n" || verificarName === "no"){
+        $name = String(prompt("Entonces cual e stu nombre?"))
+
+    }
+    
+    elegirTipo()
+    
     ingresarMasmorra()
 
 }
