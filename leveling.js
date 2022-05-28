@@ -1,5 +1,6 @@
 let _cazador = "Debil - Mago - Espadachin - Tanque - Asesino"
 let suerte = 1
+let suerteCantidad = 1
 let level = 0
 
 
@@ -78,7 +79,33 @@ let play = function(){
                 {tipo: "Alto orco", ataqueBasico: 20, ataquePotenciado: 35},
                 {tipo: "Mounstruo desconocido", ataqueBasico: 30, ataquePotenciado: 45}
             ]
-            probarSuerte(0,3)
+            suerte = probarSuerte(0,3)
+
+            switch (suerte) {
+                case 0:
+                    suerteCantidad = probarSuerte(0,3)
+                    console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte]}`)
+                    break;
+                case 1:
+                    suerteCantidad = probarSuerte(0,2)
+                    console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte]}`)
+                    break;
+                case 2:
+                    suerteCantidad = 1
+                    console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte]}`)
+                    break;
+                default:
+                    break;
+            }
+
+            let turno = function(){
+                let quienInicia = probarSuerte(0,1)
+                if(quienInicia === 1){
+                    let inician = "jugador"
+                } else {
+                    
+                }
+            }
 
         }
 
