@@ -88,16 +88,16 @@ let play = function(){
 
             switch (suerte) {
                 case 0:
-                    suerteCantidad = probarSuerte(0,3)
-                    console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte]}`)
+                    suerteCantidad = probarSuerte(1,3)
+                    console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte].tipo}`)
                     break;
                 case 1:
-                    suerteCantidad = probarSuerte(0,2)
-                    console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte]}`)
+                    suerteCantidad = probarSuerte(1,2)
+                    console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte].tipo}`)
                     break;
                 case 2:
                     suerteCantidad = 1
-                    console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte]}`)
+                    console.log(`Estas luchando Contra ${suerteCantidad} ${mounstruo[suerte].tipo}`)
                     break;
                 default:
                     break;
@@ -125,4 +125,4 @@ let play = function(){
 
 }
 
-// play()
+play()
