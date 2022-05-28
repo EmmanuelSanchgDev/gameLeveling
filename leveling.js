@@ -1,14 +1,15 @@
 let _cazadores = "Debil - Mago - Espadachin - Tanque - Asesino"
 let mounstruo = [
-    {tipo: "Gobling", ataqueBasico: 5, ataquePotenciado: 15},
-    {tipo: "Alto orco", ataqueBasico: 20, ataquePotenciado: 35},
-    {tipo: "Mounstruo desconocido", ataqueBasico: 30, ataquePotenciado: 45}
+    {tipo: "Gobling", vida: 50, habilidades: [{ataqueBasico: 5},{ataquePotenciado: 15}]},
+    {tipo: "Alto orco", vida: 150, habilidades: [{ataqueBasico: 20},{ataquePotenciado: 35}]},
+    {tipo: "Mounstruo desconocido", vida: 300, habilidades: [{ataqueBasico: 30},{ataquePotenciado: 45}]}
     ]
 let resultSuerte = [
     "jugador se encontro con un Mounstro",
     "jugador no encontro ningun Mounstro",
     "jugador se encontro con un Mounstro"
     ]
+let menuPrincipal = "\n1- Ir a la Tienda\n2- Entrar a una Masmorra\n3- ir a Casa a Descansar"
 let leyenda = "haz limpiado la masmorra hazta llegar al piso: " 
 let quienInicia
 let habilidades = ""
@@ -17,16 +18,20 @@ let dHabilidades = "- "
 let segirBuscando
 let suerte
 let suerteCantidad
+let suerteAtaqueOponente
 let level = 1
 let verificarName
+let oponente
 
-let jugador = {
+const jugador = {
     $name: "sun jin-woo",
     $vida: 0,
     $oro: 0,
     $tipo: "",
     $skills: []
 }
+let jugadorOrigin = {}
+
 
 let probarSuerte = function(min, max){
     return Math.floor( ( Math.random() * (max - min + 1) ) + min )
@@ -54,6 +59,7 @@ let elegirTipo = function(){
                 {sarpazo_Bestial: 35},
                 {escarcha_Glacear: 40}
             )
+
         //     break;
         // case "espadachin":
         //     console.log("si")
@@ -69,6 +75,7 @@ let elegirTipo = function(){
             elegirTipo()
             break;
     }
+    jugadorOrigin = jugador
     jugador.$skills.forEach(
         function(poder){
             // console.log(iHabilidades + " " + Object.keys(poder))
@@ -80,7 +87,9 @@ let elegirTipo = function(){
 }
 
 let ingresarMasmorra = function(){
-    
+    console.group("en la masmorra")
+
+    console.log(`estas Ingresando a la Masmorra\n *las puertas se habren*`)
     suerte = probarSuerte(0,2)
     console.log(resultSuerte[suerte])
     
@@ -94,17 +103,23 @@ let ingresarMasmorra = function(){
             console.log(`haz entrado al piso ${level}`)
             ingresarMasmorra()
         } else {
+            level++
             console.log(`haz salido de la Masmorra, llevaste hasta el nivel ${level}`)
             pago(level)
         }
     }
-    console.log(level)
+    console.groupEnd()
 }
 
 let pago = function(piso){
+    console.group("pago")
     switch (piso) {
-        case 1:
+        case 0:
             console.log(`pareceque no haz pasado el piso ${piso} de la Masmorra, no recibiras ningun pago`)
+            break;
+        case 1:
+            console.log(`${leyenda} ${piso}, tu pago son 20 Monedas de oro`)
+            jugador.$oro += 20
             break;
         case 2:
             console.log(`${leyenda} ${piso}, tu pago son 30 Monedas de oro`)
@@ -125,10 +140,13 @@ let pago = function(piso){
         default:
             break;
     }
+    console.groupEnd()
 }
 
 let batalla = function(){
-    suerte = probarSuerte(0,3)
+    console.group("Mounstruo encontrado")
+
+    suerte = probarSuerte(0,2)
     switch (suerte) {
         case 0:
             suerteCantidad = probarSuerte(1,3)
@@ -145,6 +163,9 @@ let batalla = function(){
         default:
             break;
     }
+    console.groupEnd()
+
+    oponente = mounstruo[suerte].tipo
 
     quienInicia = probarSuerte(0,1)
     iniciaBatalla(quienInicia)
@@ -157,11 +178,13 @@ let iniciaBatalla = function(turno){
         turnoJugador()
     } else {
         console.log(`mounstruo inicia la Batalla`)
+        turnoOponente()
     }
 }
 
 let turnoJugador = function(){
-    console.log("turnoJugador")
+    console.group("jugador elije ataque")
+    // console.log("turnoJugador")
     let seleccion = menuAtaqueJugador()
 
         switch (seleccion) {
@@ -177,11 +200,26 @@ let turnoJugador = function(){
             default:
                 break;
         }
+    console.groupEnd()
 }
 
 let turnoOponente = function(){
-    console.log("turnoOponente")
-    
+    console.group("turno Mountruo")
+
+    console.log("Mounstruo Inicia la batalla")
+    suerteAtaqueOponente = probarSuerte(0,1)
+
+    switch (suerteAtaqueOponente) {
+        case 0:
+            console.log(`${oponente} a lanzado ${Object.keys(mounstruo[suerte].habilidades[0])}`)
+            break;
+        case 1:
+            console.log(`${oponente} a lanzado ${Object.keys(mounstruo[suerte].habilidades[1])}`)
+            break;
+        default:
+            break;
+    }
+
 }
 
 let menuAtaqueJugador = function(){
@@ -193,7 +231,24 @@ let menuAtaqueJugador = function(){
     return ataqueJugador
 }
 
-
+let seleccionJugador = function(){
+    let opcionesLobie = parseInt(prompt(`Bienvenido a la Asociasion de casadores, que deceas hacer Cazador ${jugador.$name}? ${menuPrincipal}`))
+    switch (opcionesLobie) {
+        case 1:
+            tienda()
+            break;
+        case 2:
+            ingresarMasmorra()
+            break;
+        case 3:
+            descansar()
+            break;
+        default:
+            console.log(`por favor elige una opcion Numerica valida`)
+            seleccionJugador()
+            break;
+    }
+}
 
 
 
@@ -204,10 +259,9 @@ let play = function(){
         jugador.$name = String(prompt("Entonces cual es tu nombre?"))
 
     }
-    
     elegirTipo()
     
-    ingresarMasmorra()
+    seleccionJugador()
 
 }
 
