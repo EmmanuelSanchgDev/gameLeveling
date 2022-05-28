@@ -1,22 +1,34 @@
-let _cazador = "Debil - Mago - Espadachin - Tanque - Asesino"
-let suerte = 1
-let suerteCantidad = 1
-let level = 0
-
+let _cazadores = "Debil - Mago - Espadachin - Tanque - Asesino"
+let mounstruo = [
+    {tipo: "Gobling", ataqueBasico: 5, ataquePotenciado: 15},
+    {tipo: "Alto orco", ataqueBasico: 20, ataquePotenciado: 35},
+    {tipo: "Mounstruo desconocido", ataqueBasico: 30, ataquePotenciado: 45}
+    ]
+let resultSuerte = [
+    "jugador se encontro con un Mounstro",
+    "jugador no encontro ningun Mounstro",
+    "jugador se encontro con un Mounstro"
+    ]
+let quienInicia
+let segirBuscando
+let suerte
+let suerteCantidad
+let level
+let verificarName
 
 let $name = "sun jin-woo"
 let $tipo = ""
 let $skills = {}
 
 let play = function(){
-    let verificarName = String(prompt(`tu nombre es ${$name}? [y/n]`)).toLowerCase()
+    verificarName = String(prompt(`tu nombre es ${$name}? [y/n]`)).toLowerCase()
     if(verificarName === "n" || verificarName === "no"){
         $name = String(prompt("Entonces cual e stu nombre?"))
 
     }
     
     let elegirTipo = function(){
-        $tipo = String(prompt(`Elige tu tipo de cazador...\n${_cazador}`)).toLowerCase()
+        $tipo = String(prompt(`Elige tu tipo de cazador...\n${_cazadores}`)).toLowerCase()
         switch($tipo){
             case "debil":
                 $tipo = "Debil"
@@ -66,19 +78,12 @@ let play = function(){
     }
 
     let ingresarMasmorra = function(){
-        let resultSuerte = ["jugador se encontro con un Mounstro",
-                        "jugador no encontro ningun Mounstro",
-                        "jugador se encontro con un Mounstro"]
+        
 
         suerte = probarSuerte(0,2)
         console.log(resultSuerte[suerte])
         
         let batalla = function(){
-            let mounstruo = [
-                {tipo: "Gobling", ataqueBasico: 5, ataquePotenciado: 15},
-                {tipo: "Alto orco", ataqueBasico: 20, ataquePotenciado: 35},
-                {tipo: "Mounstruo desconocido", ataqueBasico: 30, ataquePotenciado: 45}
-            ]
             suerte = probarSuerte(0,3)
 
             switch (suerte) {
@@ -98,22 +103,15 @@ let play = function(){
                     break;
             }
 
-            let turno = function(){
-                let quienInicia = probarSuerte(0,1)
-                if(quienInicia === 1){
-                    let inician = "jugador"
-                } else {
-                    
-                }
-            }
+            quienInicia = probarSuerte(0,1)
 
         }
 
         if(suerte === 0 || suerte === 2){
             console.log("la Batalla comienza")
-            // batalla()
+            batalla()
         } else {
-            let decicion = prompt("deseas seguir buscando Mounstruos?[y/n]").toLowerCase()
+            segirBuscando = prompt("deseas seguir buscando Mounstruos?[y/n]").toLowerCase()
             if(decicion === "y" || decicion === "si"){
                 console.log(level)
                 level++
