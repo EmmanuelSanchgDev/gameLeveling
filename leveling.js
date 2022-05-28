@@ -9,6 +9,7 @@ let resultSuerte = [
     "jugador no encontro ningun Mounstro",
     "jugador se encontro con un Mounstro"
     ]
+let leyenda = "haz limpiado la masmorra hazta llegar al piso: " 
 let quienInicia
 let habilidades = ""
 let iHabilidades = 1
@@ -16,13 +17,13 @@ let dHabilidades = "- "
 let segirBuscando
 let suerte
 let suerteCantidad
-let level = 0
+let level = 1
 let verificarName
 
 let jugador = {
     $name: "sun jin-woo",
     $vida: 0,
-    $dinero: 0,
+    $oro: 0,
     $tipo: "",
     $skills: []
 }
@@ -36,7 +37,7 @@ let elegirTipo = function(){
     switch(eleccion){
         case "debil":
             jugador.vida = 200
-            jugador.$dinero = 100
+            jugador.$oro = 100
             jugador.$tipo = "Debil"
             jugador.$skills.push(
                 {golpe: 20},
@@ -46,7 +47,7 @@ let elegirTipo = function(){
             break;
         case "mago":
             jugador.vida = 150
-            jugador.$dinero = 150
+            jugador.$oro = 150
             jugador.$tipo = "Mago"
             jugador.$skills.push(
                 {ataque_Igneo: 30},
@@ -84,18 +85,46 @@ let ingresarMasmorra = function(){
     console.log(resultSuerte[suerte])
     
     if(suerte === 0 || suerte === 2){
-        console.log("la Batalla comienza")
+        console.log("la Batalla esta por comienza")
         batalla()
     } else {
-        segirBuscando = prompt("deseas seguir buscando Mounstruos?[y/n]").toLowerCase()
+        segirBuscando = prompt("no se encontraron mounstruos en este piso, deseas seguir buscando Mounstruos en el siguenpe piso?[y/n]").toLowerCase()
         if(segirBuscando === "y" || segirBuscando === "si"){
-            console.log(level)
             level++
-            console.log(level)
+            console.log(`haz entrado al piso ${level}`)
             ingresarMasmorra()
+        } else {
+            console.log(`haz salido de la Masmorra, llevaste hasta el nivel ${level}`)
+            pago(level)
         }
     }
     console.log(level)
+}
+
+let pago = function(piso){
+    switch (piso) {
+        case 1:
+            console.log(`pareceque no haz pasado el piso ${piso} de la Masmorra, no recibiras ningun pago`)
+            break;
+        case 2:
+            console.log(`${leyenda} ${piso}, tu pago son 30 Monedas de oro`)
+            jugador.$oro += 30
+            break;
+        case 3:
+            console.log(`${leyenda} ${piso}, tu pago son 70 Monedas de oro`)
+            jugador.$oro += 70
+            break;
+        case 4:
+            console.log(`${leyenda} ${piso}, tu pago son 150 Monedas de oro`)
+            jugador.$oro += 150
+            break;
+        case 5:
+            console.log(`${leyenda} ${piso}, tu pago son 250 Monedas de oro`)
+            jugador.$oro += 250
+            break;
+        default:
+            break;
+    }
 }
 
 let batalla = function(){
@@ -148,6 +177,11 @@ let turnoJugador = function(){
             default:
                 break;
         }
+}
+
+let turnoOponente = function(){
+    console.log("turnoOponente")
+    
 }
 
 let menuAtaqueJugador = function(){
