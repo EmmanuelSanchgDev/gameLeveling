@@ -5,10 +5,10 @@ let salto = "--------------------------------\n"
 const saludoInicial = `Es un honor conocerte cazador `
 
 let verificarNombre = function(){
-    let nombreCorrecto = prompt(`Bienvenido Cazador, antes de comenzar por favor dime este es tu nombre? ${jugador.nombre} [y/n]`).toLowerCase()
+    let nombreCorrecto = prompt(`Bienvenido Cazador, antes de comenzar por favor dime este es tu nombre? ${jugador.nombre} [y/n]`).toLowerCase() || "y"
     if(nombreCorrecto === "y" || nombreCorrecto === "si"){
         console.log(salto + saludoInicial)
-    } else {
+    } else if(nombreCorrecto === "n" || nombreCorrecto === "no") {
             let verificarNombreEscrito = function(){
                 jugador.nombre = String(prompt(`${salto}Lamento la comfucion, por favor dime cual es tu nombre correcto para registrarlo nuevamente en el sistema`))
                 nombreCorrecto = prompt(`${salto}Muchas gracias tu nombre a quedado correctamente registrado como ${jugador.nombre}, por favor dime lo eh escrto bien? [y/n]`).toLowerCase()
@@ -19,6 +19,9 @@ let verificarNombre = function(){
                 }
             }
         verificarNombreEscrito()
+    } else {
+        console.log("porvafor elige la opcion correcta")
+        verificarNombre()
     }
 }
 let tipoCazador = function(){
@@ -94,7 +97,7 @@ let tipoCazador = function(){
             tipo = caballero
             break;
         case 4:
-            console.log(`${salto}Tus cualidades como cazador del tipo ${tanque.tipo} seran: \nvida = ${tanque.vida} \nhabilidades = ↓ \n${Object.keys(tanque.habilidades[0])} ${Object.values(tanque.habilidades[0])} \n${Object.keys(tanque.habilidades[1])} ${Object.values(humatanqueno.habilidades[1])} \n${Object.keys(tanque.habilidades[2])} ${Object.values(tanque.habilidades[2])} \n$${tanque.oro}`)
+            console.log(`${salto}Tus cualidades como cazador del tipo ${tanque.tipo} seran: \nvida = ${tanque.vida} \nhabilidades = ↓ \n${Object.keys(tanque.habilidades[0])} ${Object.values(tanque.habilidades[0])} \n${Object.keys(tanque.habilidades[1])} ${Object.values(tanque.habilidades[1])} \n${Object.keys(tanque.habilidades[2])} ${Object.values(tanque.habilidades[2])} \n$${tanque.oro}`)
             tipo = tanque
             break;
         case 5:
@@ -127,6 +130,25 @@ let tienda = function(){
         {id: 5, nombre: "capa de invisibilidad", puntos: 150, tipo: "vida", valor: 150}
     ]
     let i = 1
+    let aplicarComprar = function(objeto){
+        if(objeto.tipo === "vida"){
+            let antes = jugador.vida
+            jugador.vida += objeto.puntos
+            console.log(`Se an aplicado los puntos de vida a tus estadisticas \npasaste de tener ${antes} puntos de vida a tener ahora ${jugador.vida} puntos de vida`)
+        } else if(objeto.tipo === "poder"){
+            let habilidadesJugador = ""
+            jugador.habilidades.forEach(
+                function(elemento){
+                    console.log(jugador)
+                    console.log(Object.keys(elemento[0]))
+                    console.log(Object.values(elemento[0]))
+                    habilidadesJugador += Object.keys(elemento[0]) +" "+ Object.values(elemento[0]) + "pP\n"
+                }
+            )
+            let distibuirPuntos = parseInt(prompt(`elije a que habilidad deseas aplicar los puntos de poder`))
+            console.log(`elegiste la opccion ${distibuirPuntos}`)
+        }
+    }
     let disponible = ""
     objetosTienda.forEach(
         function(elemento){
@@ -137,16 +159,19 @@ let tienda = function(){
 
     let eleccionArticulo = parseInt(prompt(`${salto}Bienvenido a la tienda esto es lo que tengo para ofrecer \n${disponible}`))
     if(eleccionArticulo <= objetosTienda.length){
-        objetosTienda.find(
+        let eleccionObjeto = objetosTienda.find(
             function(elemento){
                 if(eleccionArticulo === elemento.id){
                     console.log(`Haz elegido el objeto ${elemento.nombre}`)
+                    return elemento.id
                 }
             }
         )
+        aplicarComprar(eleccionObjeto)
     } else if (isNaN(eleccionArticulo)){
         console.log("por favor elige una opcion numerica")
     }
+    
 }
 
 let menu = function(){
@@ -163,7 +188,7 @@ let menu = function(){
             descansar()
             break;
         default:
-            console.log("por favor elige un valor numerico")
+            console.log("por favor elige una opcion numerico")
             menu()
             break;
     }
