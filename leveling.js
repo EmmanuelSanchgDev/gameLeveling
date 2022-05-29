@@ -110,6 +110,12 @@ let tipoCazador = function(){
     if(confirmarTipo === "y" || confirmarTipo === "si"){
         jugador = tipo
         console.log(`Bien Cazador ${jugador.nombre} ahora estas registrado como cazador del tipo ${jugador.tipo}`)
+    } else if(confirmarTipo === "n" || confirmarTipo === "no") {
+        console.log("de acuerdo no te preocupes, volvamos a intentarlo")
+        tipoCazador()
+    } else {
+        console.log("lo lamento pero no entendi porfavor ingresa [y/n]")
+        tipoCazador()
     }
 }
 let tienda = function(){
@@ -124,7 +130,7 @@ let tienda = function(){
     let disponible = ""
     objetosTienda.forEach(
         function(elemento){
-            disponible += `${i}- ${elemento.nombre} aumentos de puntos ${elemento.puntos} los puntos de aplicaran a ${elemento.tipo} el Objeto tiene un costo de ${elemento.valor}\n`
+            disponible += `${i}- ${elemento.nombre} aumentos de puntos: ${elemento.puntos} los puntos de aplicaran a ${elemento.tipo} el articulo tiene un costo de $${elemento.valor}\n`
             i++
         }
     )
